@@ -124,24 +124,36 @@ int main()
 	//Vertex Input --------------------------------------------------------------------------------
 
 	float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
+	 0.5f,  0.5f, 0.0f,  // top right
+	 0.5f, -0.5f, 0.0f,  // bottom right
+	-0.5f, -0.5f, 0.0f,  // bottom left
+	-0.5f,  0.5f, 0.0f   // top left 
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
 	};
 
 	// Initialize Vertex Buffer Object to have array of vertices
-	// Initialize Vertec Array Object to have array of VBOs
-	unsigned int VBO, VAO;
+	// Initialize Vertex Array Object to have array of VBOs
+	// Initialize Elemtn buffer Object to have array of indexes that connect vertices
+	unsigned int VBO, VAO, EBO;
+	
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
 
+	// Bind Vertices to VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// 3. then set our vertex attributes pointers
+	//Bind Indexes to EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	// set our vertex attributes pointers
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	
@@ -163,8 +175,11 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //GL_FILL		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// check and call events and swap the buffers
 		glfwSwapBuffers(window);
