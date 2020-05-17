@@ -5,6 +5,11 @@ using namespace std;
 
 //Function prototypes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
+
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
@@ -15,7 +20,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Creating a new window
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Maya But Actually Works V: 0.01 alpha", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Maya But Actually Works V: 0.01 alpha", NULL, NULL);
 
 	//If it couldn't be created, terminate the program.
 	if (window == NULL)
@@ -41,6 +46,7 @@ int main()
 	//Creating openGl viewport
 	glViewport(0, 0, 800, 600);
 
+
 	//Whenever the window changes in size, GLFW calls this function
 	//and fills in the proper arguments for us to process.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -50,9 +56,23 @@ int main()
 	
 	while (!glfwWindowShouldClose(window))
 	{
+		//input
+		processInput(window);
+
+		//Rendering commands
+		//...
+		
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// check and call events and swap the buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	
+	//Delete all GLFW resources when we are done.
+	glfwTerminate();
 
 	return 0;
 }
@@ -61,4 +81,11 @@ int main()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 }
