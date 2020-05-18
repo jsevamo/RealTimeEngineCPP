@@ -1,34 +1,32 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <glfw3.h>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 using namespace std;
 
 //Function prototypes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+string loadShaderSource(const string& filename);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-//Shader code -------------------------------------------------------------
-
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
 
 int main()
 {
+	//Loading Shaders from txt file.
+
+	string vertexShaderSourceTxt = loadShaderSource("VertexShader.txt");
+	const char* vertexShaderSource = vertexShaderSourceTxt.c_str();
+
+	string fragmentShaderSourceTxt = loadShaderSource("FragmentShader.txt");
+	const char* fragmentShaderSource = fragmentShaderSourceTxt.c_str();
+
+	
 	//With these lines of code we initialize and instantiate the GLFW windows.
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -153,10 +151,9 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	// set our vertex attributes pointers
+	// set our vertex attributes pointers, links to vertex shader code.
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
 
 
 
@@ -207,8 +204,19 @@ void processInput(GLFWwindow* window)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
-
-
 }
+
+string loadShaderSource(const string& filename)
+{
+	ifstream file;
+	file.open(filename.c_str());
+	
+	if (!file) { return NULL; }
+	
+	stringstream stream;
+	stream << file.rdbuf();
+	file.close();
+
+	return stream.str();
+}
+

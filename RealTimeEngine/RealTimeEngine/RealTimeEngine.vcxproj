@@ -22,6 +22,10 @@
     <ClCompile Include="..\..\..\..\CodingLibs\C++\glad\src\glad.c" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="FragmentShader.txt" />
+    <Text Include="VertexShader.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{2DA0755B-6417-43D4-BA24-F356534958C2}</ProjectGuid>
