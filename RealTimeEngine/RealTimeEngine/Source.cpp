@@ -49,10 +49,10 @@ int main()
 	// We tell GLFW to make the context of our window the main context on the current thread.
 	glfwMakeContextCurrent(window);
 
-	
+
 	//We pass GLAD the function to load the adress of the OpenGL function pointers which is OS - specific.
 	//GLFW gives us glfwGetProcAddress that defines the correct function based on which OS we're compiling for.
-	
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -67,7 +67,7 @@ int main()
 	//and fills in the proper arguments for us to process.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	
+
 
 	//Vertex Shader -------------------------------------------------------------------------------
 
@@ -93,7 +93,7 @@ int main()
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader);
 
-	
+
 	//Check for compiler errors
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 	if (!success)
@@ -138,7 +138,7 @@ int main()
 	// Initialize Vertex Array Object to have array of VBOs
 	// Initialize Elemtn buffer Object to have array of indexes that connect vertices
 	unsigned int VBO, VAO, EBO;
-	
+
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &EBO);
@@ -156,13 +156,13 @@ int main()
 	// set our vertex attributes pointers
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	
-	
-	
 
-	
+
+
+
+
 	//Render loop
-	
+
 	while (!glfwWindowShouldClose(window))
 	{
 		//input
@@ -170,14 +170,13 @@ int main()
 
 		//Rendering commands
 		//...
-		
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shaderProgram);
 		//glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 6);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //GL_FILL		
+		//glDrawArrays(GL_TRIANGLES, 0, 6);		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -186,7 +185,7 @@ int main()
 		glfwPollEvents();
 	}
 
-	
+
 	//Delete all GLFW resources when we are done.
 	glfwTerminate();
 
@@ -204,4 +203,12 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+
+
 }

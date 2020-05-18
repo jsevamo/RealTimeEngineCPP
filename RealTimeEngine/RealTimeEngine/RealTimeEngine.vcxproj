@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Users\USER\Desktop\glad\src\glad.c" />
+    <ClCompile Include="..\..\..\..\CodingLibs\C++\glad\src\glad.c" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
