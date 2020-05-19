@@ -171,7 +171,19 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// Getting the uniform "ourColor" in the fragment shader"
+
+		int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+
+		// Using the shader
 		glUseProgram(shaderProgram);
+
+		//Setting the "ourColor" uniform color
+
+		glUniform4f(vertexColorLocation, 1, 1, 1, 1);
+
+		
+		
 		//glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
